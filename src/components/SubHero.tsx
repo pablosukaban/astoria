@@ -22,11 +22,16 @@ const SubHero = ({
         style={{ y }}
         className="absolute -z-50 h-full min-h-[375px] w-full"
       >
-        <Image
-          alt="bg image bottom"
-          src={imageLink}
-          className="h-full w-full object-cover"
-        />
+        <div className="h-full w-full">
+          <Image
+            alt="bg image bottom"
+            src={imageLink}
+            fill
+            style={{
+              objectFit: 'cover',
+            }}
+          />
+        </div>
       </motion.div>
       <div className="absolute bottom-0 w-full space-y-8 bg-black bg-opacity-25 px-4 py-4 text-center text-white">
         <motion.h1
