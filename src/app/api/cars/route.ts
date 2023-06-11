@@ -8,9 +8,8 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const result = await db
-    .insert(User)
-    .values({ fullName: 'John Doe', phone: '123456789' });
+  const body = await req.json();
+  console.log('🚀 ~ file: route.ts:12 ~ POST ~ body:', body);
 
-  return NextResponse.json({ result: result });
+  return NextResponse.json({ message: body });
 }
