@@ -86,7 +86,7 @@ const AllCars = async () => {
   return (
     // <div></div>
     <main>
-      <h1>{JSON.stringify(data)}</h1>
+      {/* <h1>{process.env.TEST}</h1> */}
       <SubHero imageLink={imageLink} mainText="Все автомобили" />
       <div className="bg-secondaryLightGray py-16">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 ">
