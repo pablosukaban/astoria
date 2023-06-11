@@ -1,4 +1,3 @@
-'use client';
 import CarsList from '~/components/CarsList';
 import SubHero from '~/components/SubHero';
 import { motion } from 'framer-motion';
@@ -66,7 +65,13 @@ const CarNameFilter = () => {
   return <input className="rounded border p-4" placeholder="Поиск по авто" />;
 };
 
-const AllCars = () => {
+const AllCars = async () => {
+  const res = await fetch('http://localhost:3000/api/cars');
+
+  const data = await res.json();
+
+  // console.log(data);
+
   // const { cars } = useAppSelector((state) => state.car);
 
   // const { setBrands, setCars, setModels } = carSlice.actions;
@@ -79,13 +84,15 @@ const AllCars = () => {
   // }, [dispatch, setBrands, setCars, setModels]);
 
   return (
-    <motion.main>
+    // <div></div>
+    <main>
+      <h1>{JSON.stringify(data)}</h1>
       <SubHero imageLink={imageLink} mainText="Все автомобили" />
       <div className="bg-secondaryLightGray py-16">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 ">
           <div className="mb-12 flex flex-col justify-between gap-2 rounded border bg-white p-6 shadow-sm">
             <h1 className="text-center text-2xl font-bold">Фильтр</h1>
-            <CarNameFilter />
+            {/* <CarNameFilter /> */}
             <div className="flex flex-col flex-wrap gap-2 md:flex-row md:items-center lg:flex-nowrap">
               {/* <ModelFilter />
                             <BrandFilter />
@@ -96,7 +103,7 @@ const AllCars = () => {
               </button>
             </div>
           </div>
-          <CarsList />
+          {/* <CarsList /> */}
           <div className="mt-8 flex items-center justify-end gap-2">
             {[1, 2, 3, 4, 5].map((el) => (
               <button
@@ -109,7 +116,7 @@ const AllCars = () => {
           </div>
         </div>
       </div>
-    </motion.main>
+    </main>
   );
 };
 
