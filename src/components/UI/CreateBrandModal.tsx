@@ -1,37 +1,49 @@
 'use client';
+
 import { useRef, useState } from 'react';
 
 interface CreateBrandModalProps {
   isOpened: boolean;
-  setIsOpened: (isOpened: boolean) => void;
+  closeModal: () => void;
 }
 
-const CreateBrandModal = ({ isOpened, setIsOpened }: CreateBrandModalProps) => {
+const CreateBrandModal = ({ isOpened, closeModal }: CreateBrandModalProps) => {
   const modalContainerRef = useRef(null);
 
   const [value, setValue] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // const { setBrands } = carSlice.actions;
-  // const dispatch = useAppDispatch();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const handleSubmit = () => {
     if (value.length === 0) {
       alert('Введие бренд');
       return;
     }
 
-    // createBrand({ car_brand_name: value })
-    //     .then(() => {
-    //         setValue('');
-    //         setIsOpened(false);
-    //     })
-    //     .then(() => fetchBrands())
-    //     .then((data) => dispatch(setBrands(data)));
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/brands', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: value }),
+      });
+
+      closeModal();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+      setValue('');
+    }
   };
 
   const handleContainerClick = (e: React.MouseEvent) => {
     if (e.target === modalContainerRef.current) {
-      setIsOpened(false);
+      closeModal();
     }
   };
 
@@ -43,7 +55,10 @@ const CreateBrandModal = ({ isOpened, setIsOpened }: CreateBrandModalProps) => {
       onClick={handleContainerClick}
       ref={modalContainerRef}
     >
-      <div className="flex flex-col items-center justify-center gap-6 rounded-lg bg-white p-6">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center justify-center gap-6 rounded-lg bg-white p-6"
+      >
         <h1 className="w-full border-b border-slate-300 p-1 text-2xl font-bold">
           Добавить бренд
         </h1>
@@ -54,14 +69,19 @@ const CreateBrandModal = ({ isOpened, setIsOpened }: CreateBrandModalProps) => {
           className="border px-6 py-4"
         />
         <div className="flex w-full items-center justify-between gap-4 ">
-          <button onClick={handleSubmit} className="bg-primaryOrange px-4 py-3">
+          <button
+            className={`${
+              loading ? 'opacity-50' : 'opacity-100'
+            } bg-primaryOrange px-4 py-3 disabled:cursor-not-allowed`}
+            disabled={loading}
+          >
             Подтвердить
           </button>
-          <button onClick={() => setIsOpened(false)} className="">
+          <button type="button" onClick={closeModal} className="">
             Отменить
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

@@ -3,10 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 
 interface CreateCarModalProps {
   isOpened: boolean;
-  setIsOpened: (isOpened: boolean) => void;
+  closeModal: () => void;
 }
 
-const CreateCarModal = ({ isOpened, setIsOpened }: CreateCarModalProps) => {
+const CreateCarModal = ({ isOpened, closeModal }: CreateCarModalProps) => {
   //   const { brands, models } = useAppSelector((state) => state.car);
 
   //   const firstBrand = brands.length > 0 ? brands[0].car_brand_name : '';
@@ -65,7 +65,7 @@ const CreateCarModal = ({ isOpened, setIsOpened }: CreateCarModalProps) => {
 
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === modalContainerRef.current) {
-      setIsOpened(false);
+      closeModal();
     }
   };
 
